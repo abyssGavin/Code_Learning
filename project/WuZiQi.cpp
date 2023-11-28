@@ -1,5 +1,4 @@
 #include<iostream>
-#include<cctype>
 #include<cstring>
 #include<ctime>
 using namespace std;
@@ -13,6 +12,7 @@ void wrong();
 bool WinCheck();
 void ComputerEasy();
 bool isfull();
+void ComputerHard();
 
 int mode, col, row, COL, ROW;
 char** board;
@@ -42,26 +42,31 @@ int main() {
     }
 }
 
-
-
-
-
 void GameBegin() {
     BoardInit();
+    BoardDisplay();
     while (true) {
-        BoardDisplay();
         PlayerTurn();
         if (WinCheck()) {
+            BoardDisplay();
             cout << "YOU WIN!" << endl;
             break;
         }
-        if(isfull()) return;
+        if (isfull()) {
+            BoardDestroy();
+            return;
+        }
         if (mode) ComputerEasy();
-        BoardDisplay();
+        else ComputerHard();
         if (WinCheck()) {
+            BoardDisplay();
             cout << "YOU LOSE" << endl;
         }
-        if(isfull()) return;
+        BoardDisplay();
+        if (isfull()) {
+            BoardDestroy();
+            return;
+        }
     }
     BoardDestroy();
 }
@@ -125,6 +130,58 @@ void ComputerEasy() {
     }
 }
 
+void ComputerHard() {
+    int dr[] = { 1, 1, 0, -1, -1, -1, 0, 1 }; // 行的方向
+    int dc[] = { 0, 1, 1, 1, 0, -1, -1, -1 }; // 列的方向
+    int DP[8] = {0}, hs[8] = {0};
+    int maxx = -1, num;
+    for (int i = 0; i < 8; i++) {
+        int j = (i + 4) % 8;
+        if (board[row + dr[j]][col + dc[j]] != ' ') hs[j] = 1;
+        num = 0;
+        for (int y = row, x = col; y > 0 && x > 0 && y <= ROW && x <= COL && board[y][x] == '*'; y += dr[i], x += dc[i]) {
+            num++;
+        }
+        DP[j] = num;
+        if (maxx < num) {
+            maxx = num;
+        }
+    }
+    int pre = 0;
+    while(true) {
+        if(pre == 120) ComputerEasy();
+        int j = rand() % 8;
+        if(DP[j] != maxx && pre < 100) continue;
+        pre++;
+        if(hs[j] == 1) {
+            for(int y = row + dr[j], x = col + dc[j]; ; y += dr[j], x += dc[j]) {
+                if(y > 0 && x > 0 && y <= ROW && x <= COL) {
+                    if(board[y][x] == ' ') {
+                        col = x, row = y;
+                        board[y][x] = '#';
+                        return;
+                    }
+                    if(board[y][x] == '#') {
+                        pre++;
+                        break;
+                    }
+                }
+                pre++;
+            }
+        }
+        else {
+            int x = col + dc[j], y = row + dr[j];
+            if(y > 0 && x > 0 && y <= ROW && x <= COL) {
+                col = x, row = y;
+                board[row][col] = '#';
+                return;
+            }
+            pre++;
+            break;
+        }
+    }
+}
+
 bool WinCheck() {
     int cnt[4] = { 0 };
     for (int i = -4; i <= 4; i++) {
@@ -149,12 +206,12 @@ void wrong() {
 }
 
 bool isfull() {
-    while(board[full.y][full.x] != ' ') {
-        if(full.x > COL) {
+    while (board[full.y][full.x] != ' ') {
+        if (full.x > COL) {
             full.y++;
             full.x = 1;
         }
-        if(full.y == ROW && full.x == COL) {
+        if (full.y == ROW && full.x == COL) {
             cout << "The board is full";
             return false;
         }
