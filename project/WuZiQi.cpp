@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cstring>
 #include<ctime>
+#include<cstdlib>
 using namespace std;
 
 void GameBegin();
@@ -14,9 +15,9 @@ void ComputerEasy();
 bool isfull();
 void ComputerHard();
 
-int mode, col, row, COL, ROW;
+int mode, col, row, COL, ROW, pre = 0;//prevent
 char** board;
-struct {
+struct FULL{
     int y, x;
 } full;
 
@@ -57,7 +58,10 @@ void GameBegin() {
             return;
         }
         if (mode) ComputerEasy();
-        else ComputerHard();
+        else {
+            pre = 0;
+            ComputerHard();
+        }
         if (WinCheck()) {
             BoardDisplay();
             cout << "YOU LOSE" << endl;
@@ -84,7 +88,7 @@ void BoardInit() {
 
 void BoardDisplay() {
     cout << endl;
-    for (int i = 0; i <= COL; i++) cout << "***";
+    for (int i = 0; i < COL; i++) cout << "****";
     cout << endl;
     for (int i = 1; i <= ROW; i++) {
         for (int j = 1; j <= COL; j++) {
@@ -92,13 +96,13 @@ void BoardDisplay() {
             if (j < COL) cout << '|';
             else cout << endl;
         }
-        for (int j = 1; j <= COL; j++) {
+        for (int j = 1; i < ROW && j <= COL; j++) {
             cout << "---";
             if (j < COL) cout << '+';
             else cout << endl;
         }
     }
-    for (int i = 0; i <= COL + 1; i++) cout << "***";
+    for (int i = 0; i < COL; i++) cout << "****";
     cout << endl;
 }
 
@@ -147,7 +151,6 @@ void ComputerHard() {
             maxx = num;
         }
     }
-    int pre = 0;
     while(true) {
         if(pre == 120) ComputerEasy();
         int j = rand() % 8;
@@ -195,11 +198,11 @@ bool WinCheck() {
 }
 
 void BoardDestroy() {
-    for (int i = 0; i < ROW; i++) {
+    for (int i = 0; i <= ROW; i++) {
         delete[] board[i];
     }
     delete[] board;
-    board = nullptr;
+    board = NULL;
 }
 void wrong() {
     cout << "Invalid input!" << endl << "Please enter again" << endl;
@@ -213,7 +216,7 @@ bool isfull() {
         }
         if (full.y == ROW && full.x == COL) {
             cout << "The board is full";
-            return false;
+            return true;
         }
         full.x++;
     }
