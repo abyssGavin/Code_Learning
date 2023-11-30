@@ -110,12 +110,18 @@ void PlayerTurn() {
     cout << "Enter X,Y coordinates for your move (row, col)" << endl;
     while (true) {
         if (cin >> row >> col) {
-            if (board[row][col] != ' ') {
-                wrong();
-                continue;
+            if(row > 0 && col > 0 && row <= ROW && col <= COL) {
+                if (board[row][col] != ' ') {
+                    wrong();
+                    continue;
+                }
+                board[row][col] = '*';
+                return;
             }
-            board[row][col] = '*';
-            return;
+            else {
+                wrong();
+                break;
+            }
         }
         else {
             wrong();
