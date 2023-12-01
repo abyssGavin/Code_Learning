@@ -1,7 +1,7 @@
 #include<iostream>
+#include"dongxiao.h"
 using namespace std;
 
 int main() {
-	cout << "WA!";
-	return 0;
+	test1();
 }
