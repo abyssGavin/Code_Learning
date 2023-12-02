@@ -1,5 +1,6 @@
-﻿  dongxiao.h
-  fun.cpp
+﻿  fun.cpp
+  fun.h
   test.cpp
   正在生成代码...
+Debug\fun.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
   test.vcxproj -> D:\GitSpace\Code_Learning\vs\test\Debug\test.exe
