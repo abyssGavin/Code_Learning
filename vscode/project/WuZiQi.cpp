@@ -2,6 +2,7 @@
 #include<cstring>
 #include<ctime>
 #include<cstdlib>
+#include<limits>
 using namespace std;
 
 void GameBegin();
@@ -38,8 +39,9 @@ int main() {
         }
         else {
             wrong();
-            for (char ch = getchar(); ch != '\n'; );
-        }
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
     }
 }
 
@@ -77,13 +79,22 @@ void GameBegin() {
 
 void BoardInit() {
     cout << "Please enter the size of the board (row,col)" << endl;
-    cin >> ROW >> COL;
-    board = new char* [ROW + 1];
-    for (int i = 0; i <= ROW; i++) {
-        board[i] = new char[COL + 1];
-        memset(board[i], ' ', COL + 1);
+    while(true) {
+        if(cin >> ROW >> COL) {
+            board = new char* [ROW + 1];
+            for (int i = 0; i <= ROW; i++) {
+                board[i] = new char[COL + 1];
+                memset(board[i], ' ', COL + 1);
+            }
+            full.y = full.x = 1;
+            return;
+        }
+        else {
+            wrong();
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
     }
-    full.y = full.x = 1;
 }
 
 void BoardDisplay() {
@@ -120,12 +131,14 @@ void PlayerTurn() {
             }
             else {
                 wrong();
-                break;
+                continue;
             }
         }
         else {
             wrong();
-            for (char ch = getchar(); ch != '\n'; );
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            // for (char ch = getchar(); ch != '\n'; );
         }
     }
 }
