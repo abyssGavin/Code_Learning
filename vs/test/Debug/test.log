@@ -1,6 +1,3 @@
-﻿  fun.cpp
-  fun.h
-  test.cpp
-  正在生成代码...
-Debug\fun.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+﻿  test.cpp
+D:\GitSpace\Code_Learning\vs\test\test.cpp(15,12): warning C4477: “printf”: 格式字符串“%p”需要类型“void *”的参数，但可变参数 1 拥有了类型“unsigned long”
   test.vcxproj -> D:\GitSpace\Code_Learning\vs\test\Debug\test.exe
