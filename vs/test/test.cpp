@@ -1,18 +1,13 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-struct edge {
-    int a;
-    char ch1;
-    int b;
-    char ch2;
-    int c;
-}*p = (struct edge*)0x10000000;
+void test1() {
+    int a[5][5];
+    int(*p)[4];
+    p = (int(*)[4])a;
+    printf("%p %d\n", &p[4][2] - &a[4][2], &p[4][2] - &a[4][2]);
+}
 
 int main() {
-    cout << sizeof(edge) << endl;
-    printf("%p\n", p + 0x1);
-    printf("%p\n", (unsigned long)p + 0x1);
-    printf("%p\n", (unsigned int*)p + 0x1);
-    return 0;
+    test1();
 }
