@@ -62,6 +62,7 @@
 //     cout << sizeof(arr) << endl;
 // }
 
+
 // int main() {
 //     int arr[10] = {0, 10, 2, 3 ,4, 5, 6, 7, 8, 9};
 //     int* p1 = &arr[0];
