@@ -7,7 +7,7 @@ void test1() {
     p = (int(*)[4])a;
     printf("%p %d\n", &p[4][2] - &a[4][2], &p[4][2] - &a[4][2]);
 }
-
+ 
 int main() {
     test1();
 }
