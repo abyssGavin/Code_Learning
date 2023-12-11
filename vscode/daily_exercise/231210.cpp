@@ -31,4 +31,4 @@ double cmk(int m, int k)
     double numerator = fac(m);
     double denominator = fac(k) * fac(m - k);
     return numerator / denominator;
-} 
+}  
